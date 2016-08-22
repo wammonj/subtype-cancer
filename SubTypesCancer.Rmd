@@ -16,7 +16,7 @@ load("UnsupL_SISBID_2016.RData")
 
 At first cancer research assumed that cancer that originated from a certain part of the body was all the same.  Then when they tried to develop drugs for that certain type of cancer.  However, researchers were baffled that one drug would work so well with one patient with breast cancer and do nothing for the next.  
 
-That is why there has been much interest in making personalized treatment for patients based on genetics.  In 2000 *Perou et al* in their paper "Molecular portraits of human breast tumors" used hierarchical clustering to be able to separate breast tumors into different groups that reacted differently to treatments.  Since then their paper has been quoted many times and many people have gone further to apply their study to other cancers.  Let's go through some basic steps and see if we could get a similar result.  
+That is why there has been much interest in making personalized treatment for patients based on genetics.  In 2000, *Perou et al* in their paper "Molecular portraits of human breast tumors" used hierarchical clustering to separate breast tumors into different groups that reacted differently to treatments.  Since then their paper has been quoted many times and many people have gone further to apply their study to other cancers.  Let's go through some basic steps and see if we could get a similar result.  
 
 ### PCA analysis
 
@@ -43,9 +43,9 @@ Though PCA gives the principal vectors in the order that they are "most importan
 
 ```{r importantGraphs, echo=FALSE}
 par(mfrow = c(1,2))
-      plot(Z[,2],Z[,3], xlab = paste(i," PV"), ylab = paste(j, " PV"), col = as.numeric(cdat$Subtype))
+      plot(Z[,2],Z[,3], xlab = paste(2," PV"), ylab = paste(3, " PV"), col = as.numeric(cdat$Subtype))
       legend("bottomright",legend= unique(cdat$Subtype), col=as.numeric(unique(cdat$Subtype)), pch=1, cex = 0.6)
-plot(Z[,2],Z[,4], xlab = paste(i," PV"), ylab = paste(j, " PV"), col = as.numeric(cdat$Subtype))
+plot(Z[,2],Z[,4], xlab = paste(2," PV"), ylab = paste(4, " PV"), col = as.numeric(cdat$Subtype))
       legend("bottomright",legend= unique(cdat$Subtype), col=as.numeric(unique(cdat$Subtype)), pch=1, cex = 0.6)
 ```
 
@@ -86,4 +86,6 @@ Now the Basil-like are even more clearly in a group to themselves.  The HER2-enr
 
 This was a simple demonstration showing how to use unsupervised methods to identity different groups or sub-types in the data.  These methods can greatly further the advance of data analysis if used correctly and have already helped to design personalized breast cancer treatments.
 
-If you are interested in how I made this document you can go to the [repository]<https://github.com/wammonj/subtype-cancer> which has the data and Rmarkdown code I used to generate it.
+If you are interested in how I made this document you can go to the [repository](<https://github.com/wammonj/subtype-cancer>) which has the data and Rmarkdown code I used to generate it.
+
+Created by Ammon Washburn

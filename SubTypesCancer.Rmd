@@ -62,7 +62,7 @@ com.hc = hclust(Dmat,method="ward.D")
 plot(com.hc,labels=cdat$Subtype,cex=.5)
 ```
 
-Notice at the bottom you have bunch of gene names packed together.  You can also see that height on the left actually has a scale.  Basically the longer the lines joining two clusters means those clusters were really different.  When you want a certain number of clusters *n* then you cut the top of the tree off at some height which will cut *n* vertical lines.  Then you will be left with your *n* clusters.
+Notice at the bottom you have bunch of subtype names packed together.  Each name represents a point.  You can also see that height on the left actually has a scale.  Basically the longer the lines joining two clusters means those clusters were really different.  When you want a certain number of clusters *n* then you cut the top of the tree off at some height which will cut *n* vertical lines.  Then you will be left with your *n* clusters.
 
 Lets cut the tree at three groups and then compare with what we know of the sub-types.  We can see below that it does very similar to how we predicted in the PCA section.  The Basil-like is so different from the rest that the clustering can very easily pick out most of them from the rest. However we see Luminal B seems to be close to Basal (right now) as well.
 

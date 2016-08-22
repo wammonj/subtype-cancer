@@ -16,11 +16,11 @@ load("UnsupL_SISBID_2016.RData")
 
 At first cancer research assumed that cancer that originated from a certain part of the body was all the same.  Then when they tried to develop drugs for that certain type of cancer.  However, researchers were baffled that one drug would work so well with one patient with breast cancer and do nothing for the next.  
 
-That is why there has been much interest in making personalized treatment for patients based on genetics.  In 2000 *Perou et al* in their paper "Molecular portraits of human breast tumours" used heirarchal clustering to be able to seperate breast tumors into different groups that reacted differently to treatments.  Since then their paper has been quoted many times and many people have gone futher to apply their study to other cancers.  Let's go through some basic steps and see if we could get a similar result.  
+That is why there has been much interest in making personalized treatment for patients based on genetics.  In 2000 *Perou et al* in their paper "Molecular portraits of human breast tumors" used hierarchical clustering to be able to separate breast tumors into different groups that reacted differently to treatments.  Since then their paper has been quoted many times and many people have gone further to apply their study to other cancers.  Let's go through some basic steps and see if we could get a similar result.  
 
 ### PCA analysis
 
-The first step is to visualize their data.  Since the data is very high dimensional (thousands of genes) then we can use Principal Component Analysis (PCA) to help us visualize the most important patterns in the data. I am going to cheat a little bit and color the points to their subtype to help us see the differences.
+The first step is to visualize their data.  Since the data is very high dimensional (thousands of genes) then we can use Principal Component Analysis (PCA) to help us visualize the most important patterns in the data. I am going to cheat a little bit and color the points to their sub-type to help us see the differences.
 
 ```{r fullGraphs, echo=FALSE}
 svdcdat = svd(gdat)
@@ -37,7 +37,7 @@ for (i in 1:3) {
 }
 ```
 
-Basal-like was the easiest to distingush especially and this was because the second principal componenet helped us to see that pattern. HER2-enriched was the next easiest to see and it seems that the principal components two, three, four are all needed to really see it.  Luminal A and Luminal B are very similar so it isn't clear from these graphs that they are different.  Normal-like have very few points (only seven) so we can't really distinguish them from the rest.
+Basal-like was the easiest to distinguish especially and this was because the second principal component helped us to see that pattern. HER2-enriched was the next easiest to see and it seems that the principal components two, three, four are all needed to really see it.  Luminal A and Luminal B are very similar so it isn't clear from these graphs that they are different.  Normal-like have very few points (only seven) so we can't really distinguish them from the rest.
 
 Though PCA gives the principal vectors in the order that they are "most important" that doesn't mean most important biologically.  Here we can see that the first principal vector was mostly capturing the variations in the experiments and not any important biological signal.  So we could mostly ignore the first row of graphs above and just learn from the second row.
 
@@ -53,7 +53,7 @@ This is helpful to help us see how many sub-groups there should be but we need t
 
 ### Clustering
 
-A common technique is to use heirarchal clustering to discover clusters or groups in the data.  Heirarchal clustering builds from the bottom up.  Each point starts as its own cluster.  Then you start joining clusters based on their distances (inside the cluster) and their linkages (proximity to other clusters).  You can build a dendrogram showing how this works.  
+A common technique is to use hierarchical clustering to discover clusters or groups in the data.  Hierarchical clustering builds from the bottom up.  Each point starts as its own cluster.  Then you start joining clusters based on their distances (inside the cluster) and their linkages (proximity to other clusters).  You can build a dendrogram showing how this works.  
 
 ```{r, echo=FALSE}
 Dmat = dist(gdat,method = "maximum")
@@ -64,25 +64,26 @@ plot(com.hc,labels=cdat$Subtype,cex=.5)
 
 Notice at the bottom you have bunch of gene names packed together.  You can also see that height on the left actually has a scale.  Basically the longer the lines joining two clusters means those clusters were really different.  When you want a certain number of clusters *n* then you cut the top of the tree off at some height which will cut *n* vertical lines.  Then you will be left with your *n* clusters.
 
-Lets cut the tree at three groups and then compare with what we know of the subtypes.  We can see below that it does very similar to how we predicted in the PCA section.  The Basil-like is so different from the rest that the clustering can very easily pick out most of them from the rest. However we see Luminal B seems to be close to Basal (right now) as well.
+Lets cut the tree at three groups and then compare with what we know of the sub-types.  We can see below that it does very similar to how we predicted in the PCA section.  The Basil-like is so different from the rest that the clustering can very easily pick out most of them from the rest. However we see Luminal B seems to be close to Basal (right now) as well.
 
 ```{r threeclusters, echo=FALSE}
 res.com = cutree(com.hc,3)
 table(res.com,cdat$Subtype)
 ```
 
-The next best contender is HER2-enriched where more than half of the subtypes are found mostly by themselves in a cluster.  Then the Luminals occupy the majority of a cluster to themselves as well.
+The next best contender is HER2-enriched where more than half of the sub-types are found mostly by themselves in a cluster.  Then the Luminals occupy the majority of a cluster to themselves as well.
 
-We can see from the denogram that four clusters won't add much (the cluster on the far left won't be split up when it looks like it should be) so we will cut at five clusters and display the result.
+We can see from the dendrogram that four clusters won't add much (the cluster on the far left won't be split up when it looks like it should be) so we will cut at five clusters and display the result.
 
 ```{r fiveclusters, echo=FALSE}
 res.com = cutree(com.hc,5)
 table(res.com,cdat$Subtype)
 ```
 
-Now the Basil-like are even more clearly in a group to themselves.  The HER2-enriched stayed the same as it was clearly the most defined cluster (its the large vertical line in the middle in the dendogram).  The Luminals seem to be splitting but it is clear we need other methods to really distinguish between them.
+Now the Basil-like are even more clearly in a group to themselves.  The HER2-enriched stayed the same as it was clearly the most defined cluster (its the large vertical line in the middle in the dendrogram).  The Luminals seem to be splitting but it is clear we need other methods to really distinguish between them.
 
 ### Conclusion
 
-This was a simple demonstration showing how to use unsupervised methods to idenity different groups or sub-types in the data.  These methods can greatly further the advance of data anaylsis if used correctly and have already helped to design personalized breast cancer treatments.
+This was a simple demonstration showing how to use unsupervised methods to identity different groups or sub-types in the data.  These methods can greatly further the advance of data analysis if used correctly and have already helped to design personalized breast cancer treatments.
 
+If you are interested in how I made this document you can go to the [repository]<https://github.com/wammonj/subtype-cancer> which has the data and Rmarkdown code I used to generate it.
